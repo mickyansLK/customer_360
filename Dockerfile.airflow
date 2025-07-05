@@ -1,0 +1,52 @@
+FROM apache/airflow:2.8.1-python3.11
+
+# Set environment variables
+ENV AIRFLOW_HOME=/opt/airflow
+ENV PYTHONPATH="${PYTHONPATH}:/opt/airflow"
+
+# Switch to root to install system dependencies
+USER root
+
+# Install system dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        git \
+        libpq-dev \
+        wget \
+        unzip \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.txt
+
+# Install dbt-snowflake
+RUN pip install --no-cache-dir dbt-snowflake==1.9.4
+
+# Create dbt directory and set permissions
+RUN mkdir -p /opt/airflow/dbt \
+    && chown -R airflow:root /opt/airflow/dbt
+
+# Switch back to airflow user
+USER airflow
+
+# Set working directory
+WORKDIR /opt/airflow
+
+# Copy dbt configuration
+COPY --chown=airflow:root config/dbt_profiles.yml /opt/airflow/.dbt/profiles.yml
+
+# Create necessary directories
+RUN mkdir -p /opt/airflow/dags \
+    && mkdir -p /opt/airflow/logs \
+    && mkdir -p /opt/airflow/plugins \
+    && mkdir -p /opt/airflow/config
+
+# Health check
+HEALTHCHECK CMD ["python", "-c", "import requests; requests.get('http://localhost:8080/health')"]
+
+# Default command
+CMD ["webserver"] 

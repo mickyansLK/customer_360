@@ -1,0 +1,34 @@
+digraph {
+	graph [fontname="Courier New" fontsize=20 label="SCV Project Data Lineage" labelloc=t layout=dot newrank=true rankdir=LR]
+	node [fontname="Courier New" shape=rect style="rounded, filled"]
+	edge [arrowsize=1 penwidth=2]
+	subgraph cluster_bronze {
+		graph [label=bronze style=rounded]
+		node [color="#66C5CC" fillcolor="#66C5CC" fontcolor=black]
+		rank=same
+		model_scv_bronze_customers [label=bronze_customers shape=box tooltip="Bronze layer view for D365 customer data with minimal transformations"]
+		model_scv_bronze_legacy_customers [label=bronze_legacy_customers shape=box tooltip="Bronze layer view for legacy Excel customer data with minimal transformations"]
+		model_scv_bronze_weather [label=bronze_weather shape=box tooltip="Bronze layer view for weather forecast data from Snowflake Marketplace"]
+		source_scv_bronze_D365_CUSTOMERS [label=D365_CUSTOMERS shape=cds tooltip="External table for D365 customer data from ADLS"]
+		source_scv_bronze_EXCEL_DATA [label=EXCEL_DATA shape=cds tooltip="External table for Legacy Excel customer data"]
+		source_scv_marketplace_forecast_day [label=forecast_day shape=cds tooltip="Weather forecast data from Snowflake Marketplace"]
+	}
+	subgraph cluster_gold {
+		graph [label=gold style=rounded]
+		node [color="#F6CF71" fillcolor="#F6CF71" fontcolor=black]
+		rank=same
+		model_scv_gold_customer_kpis [label=gold_customer_kpis shape=box tooltip="Gold layer table with regional customer KPIs and weather metrics for business intelligence"]
+	}
+	subgraph cluster_silver {
+		graph [label=silver style=rounded]
+		node [color="#F89C74" fillcolor="#F89C74" fontcolor=black]
+		rank=same
+		model_scv_silver_customer_weather [label=silver_customer_weather shape=box tooltip="Silver layer table combining customer data with weather forecasts for location-based analysis"]
+	}
+	source_scv_bronze_D365_CUSTOMERS -> model_scv_bronze_customers
+	model_scv_silver_customer_weather -> model_scv_gold_customer_kpis
+	model_scv_bronze_customers -> model_scv_silver_customer_weather
+	model_scv_bronze_weather -> model_scv_silver_customer_weather
+	source_scv_bronze_EXCEL_DATA -> model_scv_bronze_legacy_customers
+	source_scv_marketplace_forecast_day -> model_scv_bronze_weather
+}

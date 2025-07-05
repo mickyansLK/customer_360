@@ -1,0 +1,13 @@
+title: SCV Project Data Lineage
+tooltip: description
+shapes:
+  source: cds
+  seed: component
+  model: box
+palette: Pastel
+fontcolor: black
+subgraph_clusters:
+  - bronze
+  - silver
+  - gold
+  - sources

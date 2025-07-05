@@ -1,0 +1,31 @@
+# Airflow core
+apache-airflow==2.8.1
+apache-airflow-providers-snowflake==5.4.0
+apache-airflow-providers-postgres==5.7.1
+apache-airflow-providers-celery==3.4.0
+apache-airflow-providers-http==4.7.0
+
+# dbt and data tools
+dbt-core==1.9.4
+dbt-snowflake==1.9.4
+dbt-utils==1.1.1
+
+# Database connectors
+snowflake-connector-python==3.6.0
+psycopg2-binary==2.9.9
+
+# Utilities
+requests==2.31.0
+pandas==2.1.4
+numpy==1.24.3
+python-dotenv==1.0.0
+
+# Monitoring and logging
+prometheus-client==0.19.0
+structlog==23.2.0
+
+# Development tools
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.11.0
+flake8==6.1.0 

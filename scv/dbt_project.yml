@@ -1,0 +1,28 @@
+name: 'scv'
+version: '1.0.0'
+
+profile: 'scv'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  scv:
+    +schema: "{{ target.schema }}"
+    bronze:
+      +schema: "{{ 'BRONZE_DEV' if target.name == 'dev' else 'BRONZE' }}"
+      +materialized: view
+    silver:
+      +schema: "{{ 'SILVER_DEV' if target.name == 'dev' else 'SILVER' }}"
+      +materialized: table
+    gold:
+      +schema: "{{ 'GOLD_DEV' if target.name == 'dev' else 'GOLD' }}"
+      +materialized: table

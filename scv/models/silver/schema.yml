@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: silver_customer_weather
+    description: "Silver layer table combining customer data with weather forecasts for location-based analysis"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "Customer's first name"
+        tests:
+          - not_null
+      - name: last_name
+        description: "Customer's last name"
+        tests:
+          - not_null
+      - name: postal_code
+        description: "Customer's postal code for location-based analysis"
+        tests:
+          - not_null
+      - name: region
+        description: "Customer's region/state"
+        tests:
+          - not_null
+      - name: date_valid_std
+        description: "Date for weather forecast"
+        tests:
+          - not_null
+      - name: avg_temperature_air_2m_f
+        description: "Average temperature in Fahrenheit for customer's location"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -100
+              max_value: 150
+              where: "avg_temperature_air_2m_f is not null"
+      - name: probability_of_precipitation_pct
+        description: "Probability of precipitation percentage for customer's location"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              where: "probability_of_precipitation_pct is not null"

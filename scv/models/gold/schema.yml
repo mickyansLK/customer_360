@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: gold_customer_kpis
+    description: "Gold layer table with regional customer KPIs and weather metrics for business intelligence"
+    columns:
+      - name: region
+        description: "Customer's region/state for regional analysis"
+        tests:
+          - not_null
+          - unique
+      - name: total_customers
+        description: "Total number of customers in the region"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              where: "total_customers is not null"
+      - name: avg_temp_f
+        description: "Average temperature in Fahrenheit for the region"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: -100
+              max_value: 150
+              where: "avg_temp_f is not null"
+      - name: avg_rain_chance_pct
+        description: "Average probability of precipitation percentage for the region"
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              min_value: 0
+              max_value: 100
+              where: "avg_rain_chance_pct is not null" 

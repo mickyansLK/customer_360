@@ -1,0 +1,47 @@
+# dbt profiles configuration for Airflow
+# This file contains the Snowflake connection details for dbt
+
+scv:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: LXDXIQT-JK65750
+      user: MICKYANSK
+      private_key_path: /opt/airflow/.snowsql/rsa_key.pem
+      role: ACCOUNTADMIN
+      database: DBT_HOL_DEV
+      warehouse: COMPUTE_WH
+      schema: raw  # fallback only
+      authenticator: externalbrowser
+      threads: 4
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_dev"
+
+    prod:
+      type: snowflake
+      account: LXDXIQT-JK65750
+      user: MICKYANSK
+      private_key_path: /opt/airflow/.snowsql/rsa_key.pem
+      role: ACCOUNTADMIN
+      database: DBT_HOL_DEV
+      warehouse: COMPUTE_WH
+      schema: raw  # fallback only
+      authenticator: externalbrowser
+      threads: 8
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_prod"
+
+    test:
+      type: snowflake
+      account: LXDXIQT-JK65750
+      user: MICKYANSK
+      private_key_path: /opt/airflow/.snowsql/rsa_key.pem
+      role: ACCOUNTADMIN
+      database: DBT_HOL_DEV
+      warehouse: COMPUTE_WH
+      schema: raw  # fallback only
+      authenticator: externalbrowser
+      threads: 2
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_test" 
