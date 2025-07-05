@@ -131,4 +131,5 @@ cython_debug/
 
 # Local configuration
 config/local/
-profiles.yml 
+profiles.yml
+config/dbt_profiles.yml 

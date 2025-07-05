@@ -1,0 +1,47 @@
+# dbt profiles configuration template
+# Copy this file to dbt_profiles.yml and update with your actual credentials
+
+scv:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: your-snowflake-account
+      user: your-username
+      private_key_path: /path/to/your/rsa_key.pem
+      role: your-role
+      database: your-database
+      warehouse: your-warehouse
+      schema: your-schema
+      authenticator: externalbrowser
+      threads: 4
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_dev"
+
+    prod:
+      type: snowflake
+      account: your-snowflake-account
+      user: your-username
+      private_key_path: /path/to/your/rsa_key.pem
+      role: your-role
+      database: your-database
+      warehouse: your-warehouse
+      schema: your-schema
+      authenticator: externalbrowser
+      threads: 8
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_prod"
+
+    test:
+      type: snowflake
+      account: your-snowflake-account
+      user: your-username
+      private_key_path: /path/to/your/rsa_key.pem
+      role: your-role
+      database: your-database
+      warehouse: your-warehouse
+      schema: your-schema
+      authenticator: externalbrowser
+      threads: 2
+      client_session_keep_alive: True
+      query_tag: "dbt_airflow_test" 
