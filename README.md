@@ -86,6 +86,90 @@ The project follows a modern data architecture with three distinct layers:
 - **Snowflake Marketplace**: Weather forecast data from Weather Source LLC Frostbyte
 - **Data Includes**: Temperature, humidity, wind speed, precipitation, snowfall, cloud cover
 
+## 🔍 Model Visualization & Lineage
+
+### Interactive dbt Documentation
+The project includes comprehensive model visualization and lineage tracking similar to dbt Cloud.
+
+#### Start dbt Docs Server
+```bash
+cd scv
+dbt docs generate
+dbt docs serve --port 8081
+```
+
+**Access the documentation at**: http://localhost:8081
+
+#### Features Available
+- **Interactive Lineage Graph**: Visual representation of model dependencies
+- **Model Documentation**: Detailed descriptions and column information
+- **Test Results**: Data quality test outcomes and history
+- **Source Documentation**: External table and source definitions
+- **Execution History**: Model run timestamps and performance metrics
+
+### Static Lineage Visualization
+The project includes pre-generated lineage visualizations:
+
+#### SVG Lineage Graph
+- **File**: `scv/scv_lineage_graph.svg`
+- **Content**: Complete data flow from sources to gold layer
+- **Usage**: Open in any web browser or image viewer
+
+#### Lineage Analysis Script
+- **File**: `scv/lineage_analysis.py`
+- **Purpose**: Programmatic lineage analysis and dependency matrix
+- **Usage**: 
+  ```bash
+  cd scv
+  python lineage_analysis.py
+  ```
+
+### VS Code Integration
+For enhanced development experience with lineage visualization:
+
+#### dbt Power User Extension
+1. **Install Extension**: `innoverio.vscode-dbt-power-user`
+2. **Configuration**: Already configured in `.vscode/settings.json`
+3. **Features**:
+   - Model tree view in VS Code sidebar
+   - Hover documentation for models and columns
+   - Go-to-definition for model references
+   - Lineage panel showing upstream/downstream dependencies
+   - Auto-completion for dbt functions and macros
+
+#### Using VS Code for Lineage
+- **View Model Tree**: Open VS Code sidebar → dbt Power User
+- **See Dependencies**: Hover over model names to see lineage
+- **Navigate Models**: Ctrl+Click on model references
+- **Lineage Panel**: View upstream/downstream models in real-time
+
+### Lineage Graph Structure
+
+![SCV Data Lineage](scv/scv_lineage_graph.svg)
+
+**Data Flow**: Sources → Bronze Layer → Silver Layer → Gold Layer
+
+```
+Sources → Bronze Layer → Silver Layer → Gold Layer
+   ↓           ↓            ↓           ↓
+D365_CUSTOMERS → bronze_customers → silver_customer_weather → gold_customer_kpis
+EXCEL_DATA → bronze_legacy_customers ↗
+forecast_day → bronze_weather ↗
+```
+
+### Model Dependencies
+- **bronze_customers**: Depends on D365_CUSTOMERS source
+- **bronze_legacy_customers**: Depends on EXCEL_DATA source  
+- **bronze_weather**: Depends on forecast_day source
+- **silver_customer_weather**: Depends on bronze_customers and bronze_weather
+- **gold_customer_kpis**: Depends on silver_customer_weather
+
+### Troubleshooting Visualization
+1. **dbt Docs Not Loading**: Ensure you're in the `scv` directory
+2. **Port Already in Use**: Use different port: `dbt docs serve --port 8082`
+3. **VS Code Extension Issues**: Reload VS Code window
+4. **Lineage Not Updating**: Run `dbt docs generate` after model changes
+
 ## 🔧 Configuration
 
 ### Environment Configuration
