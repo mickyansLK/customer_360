@@ -76,7 +76,7 @@ def validate_data_sources():
         COUNT(*) as record_count,
         MAX(updated_at) as latest_update,
         CURRENT_TIMESTAMP() as check_time
-    FROM DBT_HOL_DEV.raw.D365_CUSTOMERS
+    FROM your-database.raw.D365_CUSTOMERS
     WHERE updated_at >= DATEADD(day, -1, CURRENT_DATE())
     """
     
@@ -89,7 +89,7 @@ def validate_data_sources():
         COUNT(*) as record_count,
         COUNT(CASE WHEN postal_code IS NOT NULL THEN 1 END) as records_with_postal,
         COUNT(CASE WHEN region IS NOT NULL THEN 1 END) as records_with_region
-    FROM DBT_HOL_DEV.raw.EXCEL_DATA
+    FROM your-database.raw.EXCEL_DATA
     """
     
     legacy_result = snowflake_hook.get_first(legacy_check_query)

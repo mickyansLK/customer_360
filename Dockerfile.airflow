@@ -37,7 +37,8 @@ USER airflow
 WORKDIR /opt/airflow
 
 # Copy dbt configuration
-COPY --chown=airflow:root config/dbt_profiles.yml /opt/airflow/.dbt/profiles.yml
+# COPY --chown=airflow:root config/dbt_profiles.yml /opt/airflow/.dbt/profiles.yml
+# Note: Use environment variables or secrets management in production
 
 # Create necessary directories
 RUN mkdir -p /opt/airflow/dags \

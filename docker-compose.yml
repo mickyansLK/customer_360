@@ -6,7 +6,7 @@ services:
     image: postgres:13
     environment:
       POSTGRES_USER: airflow
-      POSTGRES_PASSWORD: airflow
+      POSTGRES_PASSWORD: your-secure-password
       POSTGRES_DB: airflow
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
@@ -43,7 +43,7 @@ services:
       - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=True
       - AIRFLOW__CORE__LOAD_EXAMPLES=False
       - AIRFLOW__API__AUTH_BACKEND='airflow.api.auth.backend.basic_auth'
-      - AIRFLOW__WEBSERVER__SECRET_KEY='your-secret-key-here'
+      - AIRFLOW__WEBSERVER__SECRET_KEY='change-this-in-production'
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs

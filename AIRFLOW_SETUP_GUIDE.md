@@ -48,16 +48,16 @@ docker-compose logs -f airflow-webserver
 2. Add new connection:
    - **Connection Id**: `snowflake_default`
    - **Connection Type**: `Snowflake`
-   - **Host**: `LXDXIQT-JK65750.snowflakecomputing.com`
-   - **Login**: `MICKYANSK`
+   - **Host**: `your-account.snowflakecomputing.com`
+   - **Login**: `your-username`
    - **Password**: (leave empty, using key authentication)
    - **Extra**: 
      ```json
      {
-       "account": "LXDXIQT-JK65750",
-       "warehouse": "COMPUTE_WH",
-       "database": "DBT_HOL_DEV",
-       "role": "ACCOUNTADMIN",
+       "account": "your-snowflake-account",
+       "warehouse": "your-warehouse",
+       "database": "your-database",
+       "role": "your-role",
        "private_key_path": "/opt/airflow/.snowsql/rsa_key.pem"
      }
      ```
@@ -148,9 +148,9 @@ Create `.env` file for production:
 ```bash
 AIRFLOW__CORE__FERNET_KEY=your-fernet-key
 AIRFLOW__WEBSERVER__SECRET_KEY=your-secret-key
-SNOWFLAKE_ACCOUNT=LXDXIQT-JK65750
-SNOWFLAKE_USER=MICKYANSK
-SNOWFLAKE_ROLE=ACCOUNTADMIN
+SNOWFLAKE_ACCOUNT=your-snowflake-account
+SNOWFLAKE_USER=your-username
+SNOWFLAKE_ROLE=your-role
 ```
 
 ### Security Considerations

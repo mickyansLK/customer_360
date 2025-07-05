@@ -65,7 +65,7 @@ def check_warehouse_status():
         suspended,
         suspended_time
     FROM information_schema.warehouses
-    WHERE warehouse_name = 'COMPUTE_WH'
+    WHERE warehouse_name = 'your-warehouse'
     """
     
     result = snowflake_hook.get_first(warehouse_query)
@@ -88,7 +88,7 @@ def check_data_source_health():
         COUNT(*) as record_count,
         MAX(updated_at) as latest_update,
         DATEDIFF('hour', MAX(updated_at), CURRENT_TIMESTAMP()) as hours_since_update
-    FROM DBT_HOL_DEV.raw.D365_CUSTOMERS
+    FROM your-database.raw.D365_CUSTOMERS
     """
     
     d365_result = snowflake_hook.get_first(d365_health)
@@ -101,7 +101,7 @@ def check_data_source_health():
         COUNT(*) as record_count,
         COUNT(CASE WHEN postal_code IS NOT NULL THEN 1 END) as complete_records,
         ROUND(COUNT(CASE WHEN postal_code IS NOT NULL THEN 1 END) * 100.0 / COUNT(*), 2) as completeness_pct
-    FROM DBT_HOL_DEV.raw.EXCEL_DATA
+    FROM your-database.raw.EXCEL_DATA
     """
     
     legacy_result = snowflake_hook.get_first(legacy_health)
